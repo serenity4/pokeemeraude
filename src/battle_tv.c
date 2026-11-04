@@ -299,7 +299,9 @@ static const u16 sPoints_MoveEffect[NUM_BATTLE_MOVE_EFFECTS] =
     [EFFECT_WATER_SPORT] = 4,
     [EFFECT_CALM_MIND] = 1,
     [EFFECT_DRAGON_DANCE] = 1,
-    [EFFECT_CAMOUFLAGE] = 3
+    [EFFECT_CAMOUFLAGE] = 3,
+    [EFFECT_BLIZZARD] = 1,
+    [EFFECT_LEAF_BLADE] = 1,
 };
 
 static const u16 sPoints_Effectiveness[] =

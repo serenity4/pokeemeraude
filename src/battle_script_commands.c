@@ -325,6 +325,7 @@ static void Cmd_removeattackerstatus1(void);
 static void Cmd_finishaction(void);
 static void Cmd_finishturn(void);
 static void Cmd_trainerslideout(void);
+static void Cmd_leafbladesetfocusenergy(void);
 
 void (*const gBattleScriptingCommandsTable[])(void) =
 {
@@ -576,7 +577,8 @@ void (*const gBattleScriptingCommandsTable[])(void) =
     [B_SCR_OP_REMOVEATTACKERSTATUS1]           = Cmd_removeattackerstatus1,                   //0xF5
     [B_SCR_OP_FINISHACTION]                    = Cmd_finishaction,                            //0xF6
     [B_SCR_OP_FINISHTURN]                      = Cmd_finishturn,                              //0xF7
-    [B_SCR_OP_TRAINERSLIDEOUT]                 = Cmd_trainerslideout                          //0xF8
+    [B_SCR_OP_TRAINERSLIDEOUT]                 = Cmd_trainerslideout,                         //0xF8
+    [B_SCR_OP_LEAFBLADESETFOCUSENERGY]         = Cmd_leafbladesetfocusenergy,                 //0xF9
 };
 
 struct StatFractions
@@ -1087,6 +1089,7 @@ static bool8 AccuracyCalcHelper(u16 move)
     gHitMarker &= ~HITMARKER_IGNORE_UNDERWATER;
 
     if ((WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_RAIN) && gBattleMoves[move].effect == EFFECT_THUNDER)
+     || (WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_HAIL) && gBattleMoves[move].effect == EFFECT_BLIZZARD)
      || (gBattleMoves[move].effect == EFFECT_ALWAYS_HIT || gBattleMoves[move].effect == EFFECT_VITAL_THROW))
     {
         JumpIfMoveFailed(7, move);
@@ -1266,8 +1269,9 @@ static void Cmd_critcalc(void)
 
     critChance  = 2 * ((gBattleMons[gBattlerAttacker].status2 & STATUS2_FOCUS_ENERGY) != 0)
                 + (gBattleMoves[gCurrentMove].effect == EFFECT_HIGH_CRITICAL)
-                + (gBattleMoves[gCurrentMove].effect == EFFECT_SKY_ATTACK)
                 + (gBattleMoves[gCurrentMove].effect == EFFECT_BLAZE_KICK)
+                + (gBattleMoves[gCurrentMove].effect == EFFECT_LEAF_BLADE)
+                + (gBattleMoves[gCurrentMove].effect == EFFECT_SKY_ATTACK)
                 + (gBattleMoves[gCurrentMove].effect == EFFECT_POISON_TAIL)
                 + (holdEffect == HOLD_EFFECT_SCOPE_LENS)
                 + 2 * (holdEffect == HOLD_EFFECT_LUCKY_PUNCH && gBattleMons[gBattlerAttacker].species == SPECIES_CHANSEY)
@@ -7760,6 +7764,19 @@ static void Cmd_setfocusenergy(void)
     {
         gBattleMons[gBattlerAttacker].status2 |= STATUS2_FOCUS_ENERGY;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_GETTING_PUMPED;
+    }
+    gBattlescriptCurrInstr++;
+}
+
+static void Cmd_leafbladesetfocusenergy(void)
+{
+    if (Random() % 2 == 1) // 50% chance
+    {
+        if (!gBattleMons[gBattlerAttacker].status2)
+        {
+            gBattleMons[gBattlerAttacker].status2 |= STATUS2_FOCUS_ENERGY;
+            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_GETTING_PUMPED;
+        }
     }
     gBattlescriptCurrInstr++;
 }
