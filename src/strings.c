@@ -244,6 +244,7 @@ const u8 gText_BootedUpTM[] = _("CT activée.");
 const u8 gText_BootedUpHM[] = _("CS activée.");
 const u8 gText_TMHMContainedVar1[] = _("Elle contient\n{STR_VAR_1}.\pApprendre {STR_VAR_1}\nà un POKéMON?");
 const u8 gText_PlayerUsedVar2[] = _("{PLAYER} utilise\n{STR_VAR_2}.{PAUSE_UNTIL_PRESS}");
+const u8 gText_PlayerUsedVar2_NoPause[] = _("{PLAYER} utilise\n{STR_VAR_2}.");
 const u8 gText_RepelEffectsLingered[] = _("Mais le REPOUSSE précédent est\ntoujours actif.{PAUSE_UNTIL_PRESS}");
 const u8 gText_UsedVar2WildLured[] = _("{PLAYER} utilise\n{STR_VAR_2}.\pÇa va attirer les POKéMON sauvages.{PAUSE_UNTIL_PRESS}");
 const u8 gText_UsedVar2WildRepelled[] = _("{PLAYER} utilise\n{STR_VAR_2}.\pÇa va repousser les POKéMON\nsauvages.{PAUSE_UNTIL_PRESS}");
