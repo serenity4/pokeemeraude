@@ -473,4 +473,3 @@ PetalburgWoods_Text_TrainerTipsPP:
 	.string "pour utiliser les capacités au combat.\p"
 	.string "Si un POKéMON n'a plus de PP, il faut\n"
 	.string "l'emmener dans un CENTRE POKéMON.$"
-

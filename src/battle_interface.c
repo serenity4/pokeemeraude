@@ -2241,7 +2241,8 @@ s32 MoveBattleBar(u8 battler, u8 healthboxSpriteId, u8 whichBar, u8 unused)
 
     if (whichBar == HEALTH_BAR) // health bar
     {
-        u32 steps = 1 + (gMain.vblankCounter1 & 1); // about 1.5x, up to 2 unconditionally if that stutters
+        // u32 steps = 1 + (gMain.vblankCounter1 & 1); // about 1.5x, up to 2 unconditionally if that stutters
+        u32 steps = 1;
         while (steps--)
         {
 
