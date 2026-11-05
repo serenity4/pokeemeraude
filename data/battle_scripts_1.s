@@ -2857,7 +2857,9 @@ BattleScript_FaintAttacker::
 	pause 0x20
 	dofaintanimation BS_ATTACKER
 	cleareffectsonfaint BS_ATTACKER
+	jumpifbyte CMP_COMMON_BITS, gBattlerAttacker, BIT_SIDE, BattleScript_FaintAttackerEnd
 	printstring STRINGID_ATTACKERFAINTED
+BattleScript_FaintAttackerEnd:
 	return
 
 BattleScript_FaintTarget::
@@ -2865,7 +2867,9 @@ BattleScript_FaintTarget::
 	pause 0x20
 	dofaintanimation BS_TARGET
 	cleareffectsonfaint BS_TARGET
+	jumpifbyte CMP_COMMON_BITS, gBattlerTarget, BIT_SIDE, BattleScript_FaintTargetEnd
 	printstring STRINGID_TARGETFAINTED
+BattleScript_FaintTargetEnd:
 	return
 
 BattleScript_GiveExp::

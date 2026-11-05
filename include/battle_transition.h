@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_TRANSITION_H
 #define GUARD_BATTLE_TRANSITION_H
 
+extern EWRAM_DATA bool8 gFastBattleTransition;
+
 void BattleTransition_StartOnField(u8 transitionId);
 void BattleTransition_Start(u8 transitionId);
 bool8 IsBattleTransitionDone(void);

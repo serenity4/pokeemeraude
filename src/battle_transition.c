@@ -25,6 +25,8 @@
 #include "constants/trainers.h"
 #include "constants/rgb.h"
 
+EWRAM_DATA bool8 gFastBattleTransition = FALSE;
+
 #define PALTAG_UNUSED_MUGSHOT 0x100A
 
 #define B_TRANS_DMA_FLAGS (1 | ((DMA_SRC_INC | DMA_DEST_FIXED | DMA_REPEAT | DMA_16BIT | DMA_START_HBLANK | DMA_ENABLE) << 16))
@@ -73,6 +75,7 @@ struct TransitionData
     s16 counter;
     s16 unused4;
     s16 data[11];
+    bool8 fast;
 };
 
 struct RectangularSpiralLine
@@ -1058,6 +1061,8 @@ static void LaunchBattleTransitionTask(u8 transitionId)
     u8 taskId = CreateTask(Task_BattleTransition, 2);
     gTasks[taskId].tTransitionId = transitionId;
     sTransitionData = AllocZeroed(sizeof(*sTransitionData));
+    sTransitionData->fast = gFastBattleTransition;
+    gFastBattleTransition = FALSE;   // one-shot: never leaks into the next battle
 }
 
 static void Task_BattleTransition(u8 taskId)
@@ -1118,7 +1123,8 @@ static void Task_Intro(u8 taskId)
     if (gTasks[taskId].tState == 0)
     {
         gTasks[taskId].tState++;
-        CreateIntroTask(0, 0, 3, 2, 2);
+        if (sTransitionData->fast) CreateIntroTask(0, 0, 1, 4, 4); // one flash, 8 frames
+        else CreateIntroTask(0, 0, 3, 2, 2);
     }
     else if (IsIntroTaskDone())
     {
