@@ -2699,7 +2699,7 @@ static void SpriteCB_WildMonAnimate(struct Sprite *sprite)
 {
     if (!gPaletteFade.active)
     {
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1 | SKIP_FRONT_ANIM);
     }
 }
 
@@ -2840,10 +2840,10 @@ void SpriteCB_OpponentMonFromBall(struct Sprite *sprite)
     {
         if (!(gHitMarker & HITMARKER_NO_ANIMATIONS) || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
         {
-            if (HasTwoFramesAnimation(sprite->sSpeciesId))
-                StartSpriteAnim(sprite, 1);
+            //if (HasTwoFramesAnimation(sprite->sSpeciesId))
+            //    StartSpriteAnim(sprite, 1);
         }
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1 | SKIP_FRONT_ANIM);
     }
 }
 
@@ -2987,7 +2987,8 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 void SpriteCB_PlayerMonFromBall(struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded)
-        BattleAnimateBackSprite(sprite, sprite->sSpeciesId);
+        //BattleAnimateBackSprite(sprite, sprite->sSpeciesId);
+        sprite->callback = SpriteCallbackDummy;
 }
 
 static void SpriteCB_TrainerThrowObject_Main(struct Sprite *sprite)
