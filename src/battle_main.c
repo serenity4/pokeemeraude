@@ -2697,10 +2697,10 @@ static void SpriteCB_WildMonShowHealthbox(struct Sprite *sprite)
 
 static void SpriteCB_WildMonAnimate(struct Sprite *sprite)
 {
-    if (!gPaletteFade.active)
-    {
+    //if (!gPaletteFade.active)
+    //{
         BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1 | SKIP_FRONT_ANIM);
-    }
+    //}
 }
 
 void SpriteCallbackDummy_2(struct Sprite *sprite)
