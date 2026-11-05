@@ -929,6 +929,11 @@ static const u8 sStickDesc[] = _(
     "taux de critiques\n"
     "de CANARTICHO.");
 
+static const u8 sBrickPieceDesc[] = _(
+    "Un morceau de brique\n"
+    "solide d'un vieux\n"
+    "bâtiment.");
+
 static const u8 sRedScarfDesc[] = _(
     "Objet tenu montant\n"
     "la stat SANG-FROID\n"
@@ -1526,4 +1531,3 @@ static const u8 sOldSeaMapDesc[] = _(
     "Une vieille carte\n"
     "montrant la route\n"
     "vers une île.");
-

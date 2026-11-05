@@ -529,6 +529,9 @@ const u32 gItemIconPalette_ThickClub[] = INCGFX_U32("graphics/items/icon_palette
 const u32 gItemIcon_Stick[] = INCGFX_U32("graphics/items/icons/stick.png", ".4bpp.lz");
 const u32 gItemIconPalette_Stick[] = INCGFX_U32("graphics/items/icon_palettes/stick.pal", ".gbapal.lz");
 
+const u32 gItemIcon_BrickPiece[] = INCGFX_U32("graphics/items/icons/brick_piece.png", ".4bpp.lz");
+const u32 gItemIconPalette_BrickPiece[] = INCGFX_U32("graphics/items/icon_palettes/brick_piece.pal", ".gbapal.lz");
+
 const u32 gItemIcon_Scarf[] = INCGFX_U32("graphics/items/icons/scarf.png", ".4bpp.lz");
 const u32 gItemIconPalette_RedScarf[] = INCGFX_U32("graphics/items/icon_palettes/red_scarf.pal", ".gbapal.lz");
 const u32 gItemIconPalette_BlueScarf[] = INCGFX_U32("graphics/items/icon_palettes/blue_scarf.pal", ".gbapal.lz");

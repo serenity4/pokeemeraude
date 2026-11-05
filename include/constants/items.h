@@ -253,7 +253,7 @@
 #define ITEM_METAL_POWDER 223
 #define ITEM_THICK_CLUB 224
 #define ITEM_STICK 225
-#define ITEM_0E2 226
+#define ITEM_BRICK_PIECE 226
 #define ITEM_0E3 227
 #define ITEM_0E4 228
 #define ITEM_0E5 229
@@ -478,6 +478,13 @@
 #define ITEM_B_USE_OTHER    2
 
 // Check if the item is one that can be used on a Pokémon.
-#define ITEM_HAS_EFFECT(item) ((item) >= ITEM_POTION && (item) <= MAX_BERRY_INDEX)
+#define ITEM_HAS_EFFECT(item) (((item) >= ITEM_POTION && (item) <= MAX_BERRY_INDEX) || \
+                               (item) == ITEM_DRAGON_SCALE || \
+                               (item) == ITEM_KINGS_ROCK || \
+                               (item) == ITEM_DEEP_SEA_SCALE || \
+                               (item) == ITEM_DEEP_SEA_TOOTH || \
+                               (item) == ITEM_METAL_COAT || \
+                               (item) == ITEM_BRICK_PIECE || \
+                               (item) == ITEM_UP_GRADE)
 
 #endif  // GUARD_CONSTANTS_ITEMS_H
