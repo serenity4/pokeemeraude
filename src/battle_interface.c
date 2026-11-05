@@ -2241,11 +2241,17 @@ s32 MoveBattleBar(u8 battler, u8 healthboxSpriteId, u8 whichBar, u8 unused)
 
     if (whichBar == HEALTH_BAR) // health bar
     {
+        u32 steps = 1 + (gMain.vblankCounter1 & 1); // about 1.5x, up to 2 unconditionally if that stutters
+        while (steps--)
+        {
+
         currentBarValue = CalcNewBarValue(gBattleSpritesDataPtr->battleBars[battler].maxValue,
                     gBattleSpritesDataPtr->battleBars[battler].oldValue,
                     gBattleSpritesDataPtr->battleBars[battler].receivedValue,
                     &gBattleSpritesDataPtr->battleBars[battler].currValue,
                     B_HEALTHBAR_PIXELS / 8, 1);
+        if (currentBarValue == -1) break;
+        }
     }
     else // exp bar
     {
@@ -2255,6 +2261,9 @@ s32 MoveBattleBar(u8 battler, u8 healthboxSpriteId, u8 whichBar, u8 unused)
         if (expFraction == 0)
             expFraction = 1;
         expFraction = abs(gBattleSpritesDataPtr->battleBars[battler].receivedValue / expFraction);
+        expFraction = (u32)expFraction * 3 / 4;   // 0.75x
+        if (expFraction == 0)
+            expFraction = 1;
 
         currentBarValue = CalcNewBarValue(gBattleSpritesDataPtr->battleBars[battler].maxValue,
                     gBattleSpritesDataPtr->battleBars[battler].oldValue,
