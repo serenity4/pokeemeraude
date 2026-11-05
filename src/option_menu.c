@@ -18,10 +18,10 @@
 
 #define tMenuSelection data[0]
 #define tTextSpeed data[1]
-#define tBattleSceneOff data[2]
+#define tBattleAnimSpeed data[2]
 #define tBattleStyle data[3]
 #define tSound data[4]
-#define tButtonMode data[5]
+#define tSpriteAnim data[5]
 #define tWindowFrameType data[6]
 
 enum
@@ -30,7 +30,7 @@ enum
     MENUITEM_BATTLESCENE,
     MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
-    MENUITEM_BUTTONMODE,
+    MENUITEM_SPRITEANIM,
     MENUITEM_FRAMETYPE,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
@@ -46,7 +46,7 @@ enum
 #define YPOS_BATTLESCENE  (MENUITEM_BATTLESCENE * 16)
 #define YPOS_BATTLESTYLE  (MENUITEM_BATTLESTYLE * 16)
 #define YPOS_SOUND        (MENUITEM_SOUND * 16)
-#define YPOS_BUTTONMODE   (MENUITEM_BUTTONMODE * 16)
+#define YPOS_SPRITEANIM   (MENUITEM_SPRITEANIM * 16)
 #define YPOS_FRAMETYPE    (MENUITEM_FRAMETYPE * 16)
 
 static void Task_OptionMenuFadeIn(u8 taskId);
@@ -56,16 +56,16 @@ static void Task_OptionMenuFadeOut(u8 taskId);
 static void HighlightOptionMenuItem(u8 selection);
 static u8 TextSpeed_ProcessInput(u8 selection);
 static void TextSpeed_DrawChoices(u8 selection);
-static u8 BattleScene_ProcessInput(u8 selection);
-static void BattleScene_DrawChoices(u8 selection);
+static u8 BattleAnim_ProcessInput(u8 selection);
+static void BattleAnim_DrawChoices(u8 selection);
 static u8 BattleStyle_ProcessInput(u8 selection);
 static void BattleStyle_DrawChoices(u8 selection);
 static u8 Sound_ProcessInput(u8 selection);
 static void Sound_DrawChoices(u8 selection);
 static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection);
-static u8 ButtonMode_ProcessInput(u8 selection);
-static void ButtonMode_DrawChoices(u8 selection);
+static u8 SpriteAnim_ProcessInput(u8 selection);
+static void SpriteAnim_DrawChoices(u8 selection);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(void);
 static void DrawBgWindowFrames(void);
@@ -82,7 +82,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLESCENE] = gText_BattleScene,
     [MENUITEM_BATTLESTYLE] = gText_BattleStyle,
     [MENUITEM_SOUND]       = gText_Sound,
-    [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
+    [MENUITEM_SPRITEANIM]  = gText_SpriteAnim,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
@@ -229,19 +229,17 @@ void CB2_InitOptionMenu(void)
 
         gTasks[taskId].tMenuSelection = 0;
         gTasks[taskId].tTextSpeed = gSaveBlock2Ptr->optionsTextSpeed;
-        gTasks[taskId].tBattleSceneOff = gSaveBlock2Ptr->optionsBattleSceneOff
-                               ? OPTIONS_BATTLE_ANIM_OFF
-                               : max(gSaveBlock2Ptr->optionsBattleAnimSpeed, OPTIONS_BATTLE_ANIM_NORMAL);
+        gTasks[taskId].tBattleAnimSpeed = gSaveBlock2Ptr->optionsBattleAnimSpeed % OPTIONS_BATTLE_ANIM_COUNT;
         gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
-        gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
+        gTasks[taskId].tSpriteAnim = gSaveBlock2Ptr->optionsSpriteAnim % OPTIONS_SPRITE_ANIM_COUNT;
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
 
         TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed);
-        BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
+        BattleAnim_DrawChoices(gTasks[taskId].tBattleAnimSpeed);
         BattleStyle_DrawChoices(gTasks[taskId].tBattleStyle);
         Sound_DrawChoices(gTasks[taskId].tSound);
-        ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
+        SpriteAnim_DrawChoices(gTasks[taskId].tSpriteAnim);
         FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
         HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
 
@@ -304,11 +302,11 @@ static void Task_OptionMenuProcessInput(u8 taskId)
                 TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed);
             break;
         case MENUITEM_BATTLESCENE:
-            previousOption = gTasks[taskId].tBattleSceneOff;
-            gTasks[taskId].tBattleSceneOff = BattleScene_ProcessInput(gTasks[taskId].tBattleSceneOff);
+            previousOption = gTasks[taskId].tBattleAnimSpeed;
+            gTasks[taskId].tBattleAnimSpeed = BattleAnim_ProcessInput(gTasks[taskId].tBattleAnimSpeed);
 
-            if (previousOption != gTasks[taskId].tBattleSceneOff)
-                BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
+            if (previousOption != gTasks[taskId].tBattleAnimSpeed)
+                BattleAnim_DrawChoices(gTasks[taskId].tBattleAnimSpeed);
             break;
         case MENUITEM_BATTLESTYLE:
             previousOption = gTasks[taskId].tBattleStyle;
@@ -324,12 +322,12 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tSound)
                 Sound_DrawChoices(gTasks[taskId].tSound);
             break;
-        case MENUITEM_BUTTONMODE:
-            previousOption = gTasks[taskId].tButtonMode;
-            gTasks[taskId].tButtonMode = ButtonMode_ProcessInput(gTasks[taskId].tButtonMode);
+        case MENUITEM_SPRITEANIM:
+            previousOption = gTasks[taskId].tSpriteAnim;
+            gTasks[taskId].tSpriteAnim = SpriteAnim_ProcessInput(gTasks[taskId].tSpriteAnim);
 
-            if (previousOption != gTasks[taskId].tButtonMode)
-                ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
+            if (previousOption != gTasks[taskId].tSpriteAnim)
+                SpriteAnim_DrawChoices(gTasks[taskId].tSpriteAnim);
             break;
         case MENUITEM_FRAMETYPE:
             previousOption = gTasks[taskId].tWindowFrameType;
@@ -353,11 +351,11 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 static void Task_OptionMenuSave(u8 taskId)
 {
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].tTextSpeed;
-    gSaveBlock2Ptr->optionsBattleAnimSpeed = gTasks[taskId].tBattleSceneOff;
-    gSaveBlock2Ptr->optionsBattleSceneOff  = (gTasks[taskId].tBattleSceneOff == OPTIONS_BATTLE_ANIM_OFF);
+    gSaveBlock2Ptr->optionsBattleAnimSpeed = gTasks[taskId].tBattleAnimSpeed;
+    gSaveBlock2Ptr->optionsBattleSceneOff  = (gTasks[taskId].tBattleAnimSpeed == OPTIONS_BATTLE_ANIM_OFF);
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
-    gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
+    gSaveBlock2Ptr->optionsSpriteAnim = gTasks[taskId].tSpriteAnim;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
@@ -448,7 +446,7 @@ static const u8 *const sBattleAnimNames[OPTIONS_BATTLE_ANIM_COUNT] = {
     gText_BattleAnim0, gText_BattleAnim1, gText_BattleAnim2, gText_BattleAnim3,
 };
 
-static u8 BattleScene_ProcessInput(u8 selection)
+static u8 BattleAnim_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT))
     {
@@ -463,7 +461,7 @@ static u8 BattleScene_ProcessInput(u8 selection)
     return selection;
 }
 
-static void BattleScene_DrawChoices(u8 selection)
+static void BattleAnim_DrawChoices(u8 selection)
 {
     u8 i;
     for (i = 0; i < OPTIONS_BATTLE_ANIM_COUNT; i++)
@@ -472,12 +470,7 @@ static void BattleScene_DrawChoices(u8 selection)
 
 static u8 BattleStyle_ProcessInput(u8 selection)
 {
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-        sArrowPressed = TRUE;
-    }
-
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) { selection ^= 1; sArrowPressed = TRUE; }
     return selection;
 }
 
@@ -578,50 +571,18 @@ static void FrameType_DrawChoices(u8 selection)
     DrawOptionMenuChoice(text, width + 107, YPOS_FRAMETYPE, 1);
 }
 
-static u8 ButtonMode_ProcessInput(u8 selection)
-{
-    if (JOY_NEW(DPAD_RIGHT))
-    {
-        if (selection <= 1)
-            selection++;
-        else
-            selection = 0;
+static const u8 *const sSpriteAnimNames[OPTIONS_SPRITE_ANIM_COUNT] = {
+    gText_SpriteAnimOff, gText_SpriteAnimOn,
+};
 
-        sArrowPressed = TRUE;
-    }
-    if (JOY_NEW(DPAD_LEFT))
-    {
-        if (selection != 0)
-            selection--;
-        else
-            selection = 2;
-
-        sArrowPressed = TRUE;
-    }
+static u8 SpriteAnim_ProcessInput(u8 selection) {
+    if (JOY_NEW(DPAD_RIGHT) || JOY_NEW(DPAD_LEFT)) { selection ^= 1; sArrowPressed = TRUE; }
     return selection;
 }
 
-static void ButtonMode_DrawChoices(u8 selection)
-{
-    s32 widthNormal, widthLR, widthLA, xLR;
-    u8 styles[3];
-
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[2] = 0;
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_ButtonTypeNormal, 104, YPOS_BUTTONMODE, styles[0]);
-
-    widthNormal = GetStringWidth(FONT_NORMAL, gText_ButtonTypeNormal, 0);
-    widthLR = GetStringWidth(FONT_NORMAL, gText_ButtonTypeLR, 0);
-    widthLA = GetStringWidth(FONT_NORMAL, gText_ButtonTypeLEqualsA, 0);
-
-    widthLR -= 94;
-    xLR = (widthNormal - widthLR - widthLA) / 2 + 104;
-    DrawOptionMenuChoice(gText_ButtonTypeLR, xLR, YPOS_BUTTONMODE, styles[1]);
-
-    DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(FONT_NORMAL, gText_ButtonTypeLEqualsA, 198), YPOS_BUTTONMODE, styles[2]);
+static void SpriteAnim_DrawChoices(u8 selection) {
+    u8 i; for (i = 0; i < OPTIONS_SPRITE_ANIM_COUNT; i++)
+        DrawOptionMenuChoice(sSpriteAnimNames[i], 104 + i * 56, YPOS_SPRITEANIM, i == selection);
 }
 
 static void DrawHeaderText(void)

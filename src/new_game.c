@@ -96,6 +96,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->optionsBattleAnimSpeed = OPTIONS_BATTLE_ANIM_NORMAL;
+    gSaveBlock2Ptr->optionsSpriteAnim = OPTIONS_SPRITE_ANIM_ON;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 

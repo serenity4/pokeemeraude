@@ -2709,7 +2709,9 @@ static void SpriteCB_WildMonAnimate(struct Sprite *sprite)
 {
     //if (!gPaletteFade.active)
     //{
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1 | SKIP_FRONT_ANIM);
+        u8 panMode = 1;
+        if (gSaveBlock2Ptr->optionsSpriteAnim == OPTIONS_SPRITE_ANIM_OFF) panMode |= SKIP_FRONT_ANIM;
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, panMode);
     //}
 }
 
@@ -2848,12 +2850,15 @@ void SpriteCB_OpponentMonFromBall(struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded)
     {
-        if (!(gHitMarker & HITMARKER_NO_ANIMATIONS) || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        u8 panMode = 1;
+        if (gSaveBlock2Ptr->optionsSpriteAnim == OPTIONS_SPRITE_ANIM_OFF) panMode |= SKIP_FRONT_ANIM;
+        if ((!(gHitMarker & HITMARKER_NO_ANIMATIONS) || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)) &&
+            (panMode & SKIP_FRONT_ANIM) == 0)
         {
-            //if (HasTwoFramesAnimation(sprite->sSpeciesId))
-            //    StartSpriteAnim(sprite, 1);
+            if (HasTwoFramesAnimation(sprite->sSpeciesId))
+                StartSpriteAnim(sprite, 1);
         }
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1 | SKIP_FRONT_ANIM);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, panMode);
     }
 }
 
@@ -2996,9 +3001,9 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 
 void SpriteCB_PlayerMonFromBall(struct Sprite *sprite)
 {
-    if (sprite->affineAnimEnded)
-        //BattleAnimateBackSprite(sprite, sprite->sSpeciesId);
-        sprite->callback = SpriteCallbackDummy;
+    if (!sprite->affineAnimEnded) return;
+    if (gSaveBlock2Ptr->optionsSpriteAnim == OPTIONS_SPRITE_ANIM_OFF) sprite->callback = SpriteCallbackDummy;
+    else BattleAnimateBackSprite(sprite, sprite->sSpeciesId);
 }
 
 static void SpriteCB_TrainerThrowObject_Main(struct Sprite *sprite)
