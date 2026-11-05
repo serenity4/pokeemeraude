@@ -1862,11 +1862,21 @@ static void CB2_HandleStartMultiBattle(void)
 
 void BattleMainCB2(void)
 {
+    u8 speed = gSaveBlock2Ptr->optionsBattleAnimSpeed;
+
     AnimateSprites();
     BuildOamBuffer();
     RunTextPrinters();
     UpdatePaletteFade();
     RunTasks();
+
+    // Extra animation sub-frame. Every odd frame = 1.5x.
+    if (gAnimScriptActive && (speed == OPTIONS_BATTLE_ANIM_FASTER || (speed == OPTIONS_BATTLE_ANIM_FAST && (gMain.vblankCounter1 & 1))))
+    {
+        gAnimScriptCallback();
+        AnimateSprites();
+        RunTasks();
+    }
 
     if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && RecordedBattle_CanStopPlayback())
     {

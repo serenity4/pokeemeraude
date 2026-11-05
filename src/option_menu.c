@@ -229,7 +229,9 @@ void CB2_InitOptionMenu(void)
 
         gTasks[taskId].tMenuSelection = 0;
         gTasks[taskId].tTextSpeed = gSaveBlock2Ptr->optionsTextSpeed;
-        gTasks[taskId].tBattleSceneOff = gSaveBlock2Ptr->optionsBattleSceneOff;
+        gTasks[taskId].tBattleSceneOff = gSaveBlock2Ptr->optionsBattleSceneOff
+                               ? OPTIONS_BATTLE_ANIM_OFF
+                               : max(gSaveBlock2Ptr->optionsBattleAnimSpeed, OPTIONS_BATTLE_ANIM_NORMAL);
         gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
@@ -351,7 +353,8 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 static void Task_OptionMenuSave(u8 taskId)
 {
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].tTextSpeed;
-    gSaveBlock2Ptr->optionsBattleSceneOff = gTasks[taskId].tBattleSceneOff;
+    gSaveBlock2Ptr->optionsBattleAnimSpeed = gTasks[taskId].tBattleSceneOff;
+    gSaveBlock2Ptr->optionsBattleSceneOff  = (gTasks[taskId].tBattleSceneOff == OPTIONS_BATTLE_ANIM_OFF);
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
@@ -441,27 +444,30 @@ static void TextSpeed_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(FONT_NORMAL, gText_TextSpeedFast, 198), YPOS_TEXTSPEED, styles[2]);
 }
 
+static const u8 *const sBattleAnimNames[OPTIONS_BATTLE_ANIM_COUNT] = {
+    gText_BattleAnim0, gText_BattleAnim1, gText_BattleAnim2, gText_BattleAnim3,
+};
+
 static u8 BattleScene_ProcessInput(u8 selection)
 {
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    if (JOY_NEW(DPAD_RIGHT))
     {
-        selection ^= 1;
+        selection = (selection + 1) % OPTIONS_BATTLE_ANIM_COUNT;
         sArrowPressed = TRUE;
     }
-
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        selection = (selection + OPTIONS_BATTLE_ANIM_COUNT - 1) % OPTIONS_BATTLE_ANIM_COUNT;
+        sArrowPressed = TRUE;
+    }
     return selection;
 }
 
 static void BattleScene_DrawChoices(u8 selection)
 {
-    u8 styles[2];
-
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, YPOS_BATTLESCENE, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), YPOS_BATTLESCENE, styles[1]);
+    u8 i;
+    for (i = 0; i < OPTIONS_BATTLE_ANIM_COUNT; i++)
+        DrawOptionMenuChoice(sBattleAnimNames[i], 104 + i * 28, YPOS_BATTLESCENE, i == selection);
 }
 
 static u8 BattleStyle_ProcessInput(u8 selection)
