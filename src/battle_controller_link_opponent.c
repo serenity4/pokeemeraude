@@ -1320,7 +1320,7 @@ static void LinkOpponentHandleTrainerSlide(void)
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = 96;
     gSprites[gBattlerSpriteIds[gActiveBattler]].x += 32;
-    gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -2;
+    gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -BATTLE_INTRO_SLIDE_PIXELS;
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = IndexOfSpritePaletteTag(gTrainerFrontPicPaletteTable[trainerPicId].tag);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.affineParam = trainerPicId;
     gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;

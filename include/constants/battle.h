@@ -321,9 +321,9 @@ enum BattlerId
 #define BATTLE_ENVIRONMENT_BUILDING     8
 #define BATTLE_ENVIRONMENT_PLAIN        9
 
-#define B_WAIT_TIME_LONG  1
-#define B_WAIT_TIME_MED   1
-#define B_WAIT_TIME_SHORT 1
+#define B_WAIT_TIME_LONG  20
+#define B_WAIT_TIME_MED   12
+#define B_WAIT_TIME_SHORT 5
 
 #define CASTFORM_NORMAL     0
 #define CASTFORM_FIRE       1

@@ -1144,7 +1144,7 @@ static void LinkPartnerHandleDrawTrainerPic(void)
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = DISPLAY_WIDTH;
-    gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -2;
+    gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -BATTLE_INTRO_SLIDE_PIXELS;
     gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_TrainerSlideIn;
 
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnBattlerSpriteCallbackDummy;
