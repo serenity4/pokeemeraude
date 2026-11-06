@@ -1,0 +1,1 @@
+- Change `BAG_ITEMS_COUNT` to 60 (instead of 30) -> this corrupts save files!
