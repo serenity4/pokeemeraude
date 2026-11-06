@@ -8,9 +8,8 @@ gText_IllTakeYourPkmn::
     .string "OK, je prends vos POKéMON un instant.$"
 
 gText_RestoredPkmnToFullHealth::
-    .string "Merci d'avoir attendu.\p"
-    .string "Vos POKéMON sont en super\n"
-    .string "forme.$"
+    .string "Merci d'avoir attendu.\n"
+    .string "Vos POKéMON sont en super forme.$"
 
 gText_WeHopeToSeeYouAgain::
     .string "A une prochaine fois peut-être!$"
