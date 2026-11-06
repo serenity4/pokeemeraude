@@ -77,6 +77,10 @@ Route113_EventScript_GlassWorkshopSign::
 	msgbox Route113_Text_GlassWorkshopSign, MSGBOX_SIGN
 	end
 
+Route113_EventScript_WildlifeWarning::
+	msgbox Route113_Text_WildlifeWarning, MSGBOX_SIGN
+	end
+
 Route113_EventScript_TrainerTipsRegisterKeyItems::
 	msgbox Route113_Text_TrainerTipsRegisterKeyItems, MSGBOX_SIGN
 	end
@@ -187,6 +191,13 @@ Route113_Text_RouteSign111:
 Route113_Text_RouteSignFallarbor:
 	.string "ROUTE 113\n"
 	.string "{LEFT_ARROW} AUTEQUIA$"
+
+Route113_Text_WildlifeWarning:
+	.string "ATTENTION: CHIENT ERRANT\p"
+	.string "La présence d'un chien ardent a été\n"
+	.string "signalée sur cette route.\p"
+	.string "Si vous l'apercevez, il serait sage\n"
+	.string "d'éviter de s'en approcher.$"
 
 Route113_Text_TrainerTipsRegisterKeyItems:
 	.string "CONSEILS AUX DRESSEURS\p"
