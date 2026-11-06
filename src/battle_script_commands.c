@@ -1643,7 +1643,8 @@ u8 AI_TypeCalc(u16 move, u16 targetSpecies, u8 targetAbility)
 static inline void ApplyRandomDmgMultiplier(void)
 {
     u16 rand = Random();
-    u16 randPercent = 100 - (rand % 16);
+    //u16 randPercent = 100 - (rand % 16);
+    u16 randPercent = 93;
 
     if (gBattleMoveDamage != 0)
     {
