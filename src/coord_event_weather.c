@@ -1,5 +1,7 @@
 #include "global.h"
+#include "event_data.h"
 #include "constants/weather.h"
+#include "constants/flags.h"
 #include "coord_event_weather.h"
 #include "field_weather.h"
 
@@ -22,6 +24,7 @@ static void CoordEventWeather_Shade(void);
 static void CoordEventWeather_Drought(void);
 static void CoordEventWeather_Route119Cycle(void);
 static void CoordEventWeather_Route123Cycle(void);
+static void CoordEventWeather_RaikouStorm(void);
 
 static const struct CoordEventWeather sCoordEventWeatherFuncs[] =
 {
@@ -38,6 +41,7 @@ static const struct CoordEventWeather sCoordEventWeatherFuncs[] =
     { COORD_EVENT_WEATHER_DROUGHT,           CoordEventWeather_Drought },
     { COORD_EVENT_WEATHER_ROUTE119_CYCLE,    CoordEventWeather_Route119Cycle },
     { COORD_EVENT_WEATHER_ROUTE123_CYCLE,    CoordEventWeather_Route123Cycle },
+    { COORD_EVENT_WEATHER_RAIKOU_STORM,      CoordEventWeather_RaikouStorm },
 };
 
 static void CoordEventWeather_Clouds(void)
@@ -103,6 +107,12 @@ static void CoordEventWeather_Route119Cycle(void)
 static void CoordEventWeather_Route123Cycle(void)
 {
     SetWeather(WEATHER_ROUTE123_CYCLE);
+}
+
+static void CoordEventWeather_RaikouStorm(void)
+{
+    if (!FlagGet(FLAG_DEFEATED_RAIKOU)) SetWeather(WEATHER_RAIN_THUNDERSTORM);
+    else SetWeather(WEATHER_ROUTE119_CYCLE);   // same as the outer ring: zone vanishes
 }
 
 void DoCoordEventWeather(u8 coordEventWeather)

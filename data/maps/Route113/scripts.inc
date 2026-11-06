@@ -5,11 +5,46 @@ Route113_MapScripts::
 
 Route113_OnResume:
 	setstepcallback STEP_CB_ASH
+	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, Route113_EventScript_MaybeRemoveEntei
 	end
 
 Route113_OnTransition:
 	clearflag FLAG_FORCE_MIRAGE_TOWER_VISIBLE
 	call Route113_EventScript_CheckSetAshWeather
+	call_if_unset FLAG_DEFEATED_ENTEI, Route113_EventScript_ShowEntei
+	end
+
+Route113_EventScript_ShowEntei::
+	clearflag FLAG_HIDE_ENTEI
+	return
+
+Route113_EventScript_MaybeRemoveEntei::
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, Route113_EventScript_RemoveEntei
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, Route113_EventScript_RemoveEntei
+	return
+
+Route113_EventScript_RemoveEntei::
+	removeobject VAR_LAST_TALKED
+	end
+
+Route113_EventScript_Entei::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_ENTEI, CRY_MODE_ENCOUNTER
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_ENTEI, 25
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	setvar VAR_0x8004, SPECIES_ENTEI
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, Common_EventScript_LegendaryFlewAway
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, Common_EventScript_LegendaryFlewAway
+	setflag FLAG_DEFEATED_ENTEI
+	release
 	end
 
 Route113_EventScript_CheckSetAshWeather::
@@ -165,4 +200,3 @@ Route113_Text_GlassWorkshopSign:
 	.string "ATELIER DU VERRE\n"
 	.string "“Ici, on transforme les cendres\l"
 	.string "volcaniques en objets en verre!”$"
-

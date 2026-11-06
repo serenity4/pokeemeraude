@@ -1,9 +1,48 @@
 Route123_MapScripts::
+	map_script MAP_SCRIPT_ON_RESUME, Route123_OnResume
 	map_script MAP_SCRIPT_ON_TRANSITION, Route123_OnTransition
 	.byte 0
 
 Route123_OnTransition:
 	special SetRoute123Weather
+	call_if_unset FLAG_DEFEATED_SUICUNE, Route123_EventScript_ShowSuicune
+	end
+
+Route123_OnResume:
+	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, Route123_EventScript_MaybeRemoveSuicune
+	end
+
+Route123_EventScript_ShowSuicune::
+	clearflag FLAG_HIDE_SUICUNE
+	return
+
+Route123_EventScript_MaybeRemoveSuicune::
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, Route123_EventScript_RemoveSuicune
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, Route123_EventScript_RemoveSuicune
+	return
+
+Route123_EventScript_RemoveSuicune::
+	removeobject VAR_LAST_TALKED
+	end
+
+Route123_EventScript_Suicune::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_SUICUNE, CRY_MODE_ENCOUNTER
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_SUICUNE, 40
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	setvar VAR_0x8004, SPECIES_SUICUNE
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, Common_EventScript_LegendaryFlewAway
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, Common_EventScript_LegendaryFlewAway
+	setflag FLAG_DEFEATED_SUICUNE
+	release
 	end
 
 Route123_EventScript_GigaDrainGirl::
@@ -196,4 +235,3 @@ Route123_Text_RouteSignMtPyre:
 
 Route123_Text_BerryMastersHouse:
 	.string "MAISON DU MAITRE DES BAIES$"
-

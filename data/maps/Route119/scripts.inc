@@ -5,6 +5,7 @@ Route119_MapScripts::
 
 Route119_OnResume:
 	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, Route119_EventScript_TryRemoveKecleon
+	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, Route119_EventScript_MaybeRemoveRaikou
 	end
 
 Route119_EventScript_TryRemoveKecleon::
@@ -18,6 +19,7 @@ Route119_OnTransition:
 	call Common_EventScript_SetupRivalOnBikeGfxId
 	call_if_eq VAR_WEATHER_INSTITUTE_STATE, 1, Route119_EventScript_MoveInstituteWorkersDownstairs
 	special SetRoute119Weather
+	call_if_unset FLAG_DEFEATED_RAIKOU, Route119_EventScript_ShowRaikou
 	end
 
 Route119_EventScript_MoveInstituteWorkersDownstairs::
@@ -25,6 +27,41 @@ Route119_EventScript_MoveInstituteWorkersDownstairs::
 	clearflag FLAG_HIDE_WEATHER_INSTITUTE_1F_WORKERS
 	setvar VAR_WEATHER_INSTITUTE_STATE, 2
 	return
+
+Route119_EventScript_ShowRaikou::
+	clearflag FLAG_HIDE_RAIKOU
+	return
+
+Route119_EventScript_MaybeRemoveRaikou::
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, Route119_EventScript_RemoveRaikou
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, Route119_EventScript_RemoveRaikou
+	return
+
+Route119_EventScript_RemoveRaikou::
+	removeobject VAR_LAST_TALKED
+	end
+
+Route119_EventScript_Raikou::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_RAIKOU, CRY_MODE_ENCOUNTER
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_RAIKOU, 35
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	setvar VAR_0x8004, SPECIES_RAIKOU
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, Common_EventScript_LegendaryFlewAway
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, Common_EventScript_LegendaryFlewAway
+	setflag FLAG_DEFEATED_RAIKOU
+	setweather WEATHER_ROUTE119_CYCLE
+	doweather
+	release
+	end
 
 Route119_EventScript_RivalTrigger1::
 	setvar VAR_TEMP_1, 1

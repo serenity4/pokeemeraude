@@ -586,6 +586,19 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "0x0",
       "flag": "FLAG_HIDE_ROUTE_119_SCOTT"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_RAIKOU",
+      "x": 31,
+      "y": 69,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
+      "movement_range_x": 3,
+      "movement_range_y": 3,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Route119_EventScript_Raikou",
+      "flag": "FLAG_HIDE_RAIKOU"
     }
   ],
   "warp_events": [
@@ -769,6 +782,62 @@
       "y": 13,
       "elevation": 3,
       "weather": "COORD_EVENT_WEATHER_ROUTE119_CYCLE"
+    },
+    {
+      "type": "weather",
+      "x": 29,
+      "y": 47,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_ROUTE119_CYCLE"
+    },
+    {
+      "type": "weather",
+      "x": 29,
+      "y": 46,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_ROUTE119_CYCLE"
+    },
+    {
+      "type": "weather",
+      "x": 29,
+      "y": 45,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_ROUTE119_CYCLE"
+    },
+    {
+      "type": "weather",
+      "x": 29,
+      "y": 44,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_ROUTE119_CYCLE"
+    },
+    {
+      "type": "weather",
+      "x": 29,
+      "y": 43,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_ROUTE119_CYCLE"
+    },
+    {
+      "type": "weather",
+      "x": 31,
+      "y": 50,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_RAIKOU_STORM"
+    },
+    {
+      "type": "weather",
+      "x": 32,
+      "y": 50,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_RAIKOU_STORM"
+    },
+    {
+      "type": "weather",
+      "x": 33,
+      "y": 50,
+      "elevation": 0,
+      "weather": "COORD_EVENT_WEATHER_RAIKOU_STORM"
     }
   ],
   "bg_events": [
