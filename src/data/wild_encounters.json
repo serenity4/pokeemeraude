@@ -1286,7 +1286,7 @@
               {
                 "min_level": 15,
                 "max_level": 15,
-                "species": "SPECIES_WINGULL"
+                "species": "SPECIES_EEVEE"
               },
               {
                 "min_level": 15,
@@ -1440,7 +1440,7 @@
               {
                 "min_level": 15,
                 "max_level": 15,
-                "species": "SPECIES_WINGULL"
+                "species": "SPECIES_EEVEE"
               },
               {
                 "min_level": 15,
@@ -2537,7 +2537,7 @@
               {
                 "min_level": 10,
                 "max_level": 10,
-                "species": "SPECIES_TAILLOW"
+                "species": "SPECIES_EEVEE"
               },
               {
                 "min_level": 10,
@@ -2606,7 +2606,7 @@
               {
                 "min_level": 10,
                 "max_level": 10,
-                "species": "SPECIES_TAILLOW"
+                "species": "SPECIES_EEVEE"
               },
               {
                 "min_level": 10,
@@ -2983,7 +2983,7 @@
               {
                 "min_level": 29,
                 "max_level": 29,
-                "species": "SPECIES_KECLEON"
+                "species": "SPECIES_EEVEE"
               },
               {
                 "min_level": 30,
