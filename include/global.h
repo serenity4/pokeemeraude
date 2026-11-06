@@ -990,6 +990,7 @@ struct ExternalEventFlags
 
 struct SaveBlock1
 {
+    //  v    /!\ These offsets are not up to date.
     /*0x00*/ struct Coords16 pos;
     /*0x04*/ struct WarpData location;
     /*0x0C*/ struct WarpData continueGameWarp;
@@ -1082,7 +1083,7 @@ struct SaveBlock1
     /*0x3D5A*/ u8 unused_3D5A[10];
     /*0x3D64*/ struct TrainerHillSave trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    // sizeof: 0x3D88
+    /*0x3D88*/ u8 reserved[0x20];
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
