@@ -7298,12 +7298,12 @@ const struct SpeciesInfo gSpeciesInfo[] =
 
     [SPECIES_RAIKOU] =
     {
-        .baseHP        = 90,
-        .baseAttack    = 85,
-        .baseDefense   = 75,
-        .baseSpeed     = 115,
-        .baseSpAttack  = 115,
-        .baseSpDefense = 100,
+        .baseHP        = 92,
+        .baseAttack    = 46,
+        .baseDefense   = 38,
+        .baseSpeed     = 138,
+        .baseSpAttack  = 100,
+        .baseSpDefense = 85,
         .types = { TYPE_ELECTRIC, TYPE_ELECTRIC },
         .catchRate = 3,
         .expYield = 216,
@@ -7328,12 +7328,12 @@ const struct SpeciesInfo gSpeciesInfo[] =
 
     [SPECIES_ENTEI] =
     {
-        .baseHP        = 115,
-        .baseAttack    = 90,
+        .baseHP        = 123,
+        .baseAttack    = 85,
         .baseDefense   = 85,
-        .baseSpeed     = 100,
-        .baseSpAttack  = 115,
-        .baseSpDefense = 75,
+        .baseSpeed     = 108,
+        .baseSpAttack  = 46,
+        .baseSpDefense = 54,
         .types = { TYPE_FIRE, TYPE_FIRE },
         .catchRate = 3,
         .expYield = 217,
@@ -7358,13 +7358,13 @@ const struct SpeciesInfo gSpeciesInfo[] =
 
     [SPECIES_SUICUNE] =
     {
-        .baseHP        = 100,
-        .baseAttack    = 75,
-        .baseDefense   = 115,
-        .baseSpeed     = 85,
-        .baseSpAttack  = 90,
-        .baseSpDefense = 115,
-        .types = { TYPE_WATER, TYPE_WATER },
+        .baseHP        = 108,
+        .baseAttack    = 31,
+        .baseDefense   = 77,
+        .baseSpeed     = 131,
+        .baseSpAttack  = 62,
+        .baseSpDefense = 92,
+        .types = { TYPE_WATER, TYPE_ICE },
         .catchRate = 3,
         .expYield = 215,
         .evYield_HP        = 0,
